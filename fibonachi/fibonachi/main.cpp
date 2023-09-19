@@ -20,7 +20,7 @@ class Fib<1> {
 	static const int val = 1;
 };
 
-
+// Сделай еще кое-что. Реализуй алгоритм чисел Фиббоначи, которые в рантайме вычисляются и сравни время исполнения. Остальное обсудим на семинаре. 
 int main() {
 	auto starttime = std::chrono::high_resolution_clock::now();
 	std::cout << Fib<0>::val << std::endl;
