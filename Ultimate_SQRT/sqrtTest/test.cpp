@@ -91,12 +91,9 @@ TEST(sqrt, unorderedSetTest) {
 
 TEST(sqrt, mapTest) {
 	std::map<char, double> a1{ {'a',0},{'b',25},{'c',103}};
-	std::map<char, double> r1{ Sqrt(a1) };
+	std::map<char, double> r1 = Sqrt(a1);
 
 	std::for_each(r1.begin(), r1.end(), [&a1 = std::as_const(a1)](const auto& r) {
-		//	static int index = 0;
-		//auto goalVal = a1.begin();
-		//std::advance(goalVal, index++);
 		static auto goalVal = a1.begin();
 	EXPECT_NEAR(r.second, std::sqrt((*goalVal++).second), EBS); });
 }
