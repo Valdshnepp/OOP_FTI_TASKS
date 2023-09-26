@@ -30,20 +30,28 @@
 
 //check if pair
 template <typename T>
-struct is_pair : std::false_type {};
+struct is_pair {
+	static constexpr bool value = false;
+};
 
 template <typename T, typename U>
-struct is_pair<std::pair<T, U>> : std::true_type {};
+struct is_pair<std::pair<T, U>> {
+	static constexpr bool value = true;
+};
 
 template <typename T>
 constexpr bool is_pair_v = is_pair<T>::value;
 
 //check if map
 template<typename, typename = void>
-struct is_mapping : std::false_type {};
+struct is_mapping {
+	static constexpr bool value = false;
+};
 
 template <typename Container>
-struct is_mapping<Container, std::enable_if_t<is_pair_v<typename  std::iterator_traits<typename Container::iterator>::value_type>>> : std::true_type {};
+struct is_mapping<Container, std::enable_if_t<is_pair_v<typename  std::iterator_traits<typename Container::iterator>::value_type>>>{
+	static constexpr bool value = true;
+};
 
 template <typename T>
 constexpr bool is_mapping_v = is_mapping<T>::value;
@@ -82,8 +90,8 @@ typename std::enable_if_t<!is_mapping_v<T> && std::is_class<T>::value , T> Sqrt(
 
 template <typename T>
 std::forward_list<T> Sqrt(const std::forward_list<T>& in) {
-	std::forward_list<T> resReversed{};
-	std::for_each(in.begin(), in.end(), [&resReversed](T a) {resReversed.push_front( Sqrt(a)); });
-	resReversed.reverse();
-	return resReversed;
+	std::forward_list<T> res{};
+	std::for_each(in.begin(), in.end(), [&res](T a) {res.push_front( Sqrt(a)); });
+	res.reverse();
+	return res;
 }

@@ -53,13 +53,13 @@ TEST(sqrt, listTest) {
 }
 
 TEST(sqrt, forwardListTest) {
-	std::forward_list<double> a1{ 0,4,10};
+	std::forward_list<double> a1{ 1,2,3,4,5 };
 	std::forward_list<double> r1{ Sqrt(a1) };
 
-	std::for_each(r1.begin(), r1.end(), [a1 = std::as_const(a1)](const auto& r) {
+	std::for_each(r1.begin(), r1.end(), [&a1 = std::as_const(a1)](const auto& r) {
 		static auto goalVal = a1.begin();
-	EXPECT_NEAR(r, std::sqrt(*goalVal), EBS); 
-	goalVal++; });
+	EXPECT_NEAR(r, std::sqrt(*goalVal++), EBS);
+		});
 }
 
 TEST(sqrt, setTest) {
