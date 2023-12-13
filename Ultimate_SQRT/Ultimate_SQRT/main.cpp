@@ -10,9 +10,7 @@
 int main() { 
 
 	try {
-		//Sqrt(-1);
 		Sqrt(1);
-		//Sqrt(std::vector{1,-21});
 		Sqrt(std::string{ "12_" });
 
 		std::cout << std::string{ "succes!" }<<std::endl;
