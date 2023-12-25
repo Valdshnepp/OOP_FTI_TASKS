@@ -20,6 +20,7 @@ namespace {
 				return false;
 			}
 		}
+		// может тогда return true?
 		return num;
 	}
 }
@@ -29,6 +30,7 @@ namespace SimpleNumberFinder {
 	typename std::enable_if_t<std::is_same<typename std::iterator_traits<RandomAccessIterator>::iterator_category, std::random_access_iterator_tag>::value,
 		int> simpleNumberCount_NoMultithread(RandomAccessIterator begin, RandomAccessIterator end) {
 		int res = 0;
+		//const auto&
 		for (auto it = begin; it != end; it++) {
 			if (isSimple(*it)) {
 				res++;
@@ -57,6 +59,7 @@ namespace SimpleNumberFinder {
 			threadCount = 4;
 		}
 		for (int i = 0; i < threadCount && i < std::distance(begin, end); i++) {
+			// Слишком большую функцию занес в лямбду, так никто не делает. Сделай декомпозицию.
 			threads.push_back(std::async([=]() {
 				int threadRes = 0;
 			RandomAccessIterator it = begin;
@@ -73,6 +76,8 @@ namespace SimpleNumberFinder {
 				}));
 		}
 		int res = 0;
+
+		// сначала в одном цикле делаешь каждой фиче wait, потом получаешь get. Иначе у тебя undefined behaviour.
 		for (auto it = threads.begin(); it != threads.end(); it++) {
 			res = res + (*it).get();
 		}
