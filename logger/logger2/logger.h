@@ -32,6 +32,8 @@ public:
 		m_outFile = std::ofstream(name,mode);
 	}
 
+	// А вот зачем здесь friend?? 
+	// думаю t можно передавать просто по константой ссылке
 	template<typename T>
 	friend logger & operator<<(logger & log, T && t) {
 		if (!log.m_outFile.is_open()) {
@@ -45,6 +47,7 @@ public:
 		return log;
 	}
 
+	// И тут...
 	friend logger& operator<<(logger& log, std::ostream& (*var)(std::ostream&)) {
 		if (!log.m_outFile.is_open()) {
 			throw badfile();
