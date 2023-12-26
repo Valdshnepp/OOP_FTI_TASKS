@@ -28,21 +28,20 @@ class SuitablePolicy final : public Policy{
 private:
 	size_t m_size;
 	std::map<size_t, size_t> suitableAmount{
-		{1, 1},
-		{26, 2},
-		{100, 4},
-		{10'000, 8},
-		{100'000, 12},
-		{1'000'000, 16},
+		{26, 1},
+		{100, 2},
+		{10'000, 4},
+		{100'000, 8},
+		{1'000'000, 12},
 	};
 public:
 	SuitablePolicy(size_t ContSize) :m_size{ ContSize } {};
 	size_t getNumberOfThreads() const override{
 		auto mapIterator = suitableAmount.lower_bound(m_size);
 		if (mapIterator == suitableAmount.end()){
-			return 1;
+			return 16;
 		}
-		return mapIterator->second - 1;
+		return mapIterator->second;
 	}
 };
 
