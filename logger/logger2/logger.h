@@ -35,27 +35,27 @@ public:
 	// А вот зачем здесь friend?? 
 	// думаю t можно передавать просто по константой ссылке
 	template<typename T>
-	friend logger & operator<<(logger & log, T && t) {
-		if (!log.m_outFile.is_open()) {
+	logger & operator<<(const T& t) {
+		if (!this->m_outFile.is_open()) {
 			throw badfile();
 		}
-		if (log.m_isFirstInput) {
-			log.m_buffer << log.m_prefix;
-			log.m_isFirstInput = false;
+		if (this->m_isFirstInput) {
+			this->m_buffer << this->m_prefix;
+			this->m_isFirstInput = false;
 		}
-		log.m_buffer << t;
-		return log;
+		this->m_buffer << t;
+		return *this;
 	}
 
 	// И тут...
-	friend logger& operator<<(logger& log, std::ostream& (*var)(std::ostream&)) {
-		if (!log.m_outFile.is_open()) {
+	logger& operator<<(std::ostream& (*var)(std::ostream&)) {
+		if (!this->m_outFile.is_open()) {
 			throw badfile();
 		}
-		log.m_buffer << std::endl;
-		log.writeInFile();
-		log.clearBuf();
-		return log;
+		this->m_buffer << std::endl;
+		this->writeInFile();
+		this->clearBuf();
+		return *this;
 	}
 
 private:
